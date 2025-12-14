@@ -1,0 +1,84 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+
+    {
+      "Sid": "AllowS3ListBucketWithMFA",
+      "Effect": "Allow",
+      "Action": "s3:ListBucket",
+      "Resource": "arn:aws:s3:::bucket-iam-rule-based",
+      "Condition": {
+        "Bool": {
+          "aws:MultiFactorAuthPresent": "true"
+        }
+      }
+    },
+
+    {
+      "Sid": "AllowFromSpecificIP",
+      "Effect": "Allow",
+      "Action": "s3:ListBucket",
+      "Resource": "arn:aws:s3:::bucket-iam-rule-based",
+      "Condition": {
+        "IpAddress": {
+          "aws:SourceIp": "103.45.22.10/32"
+        }
+      }
+    },
+
+    {
+      "Sid": "AllowOnlySpecificRole",
+      "Effect": "Allow",
+      "Action": "s3:ListBucket",
+      "Resource": "arn:aws:s3:::bucket-iam-rule-based",
+      "Condition": {
+        "ArnEquals": {
+          "aws:PrincipalArn": "arn:aws:iam::331817609471:role/Policy-role-json"
+        }
+      }
+    },
+
+    {
+      "Sid": "AllowOnlyApprovedRegions",
+      "Effect": "Allow",
+      "Action": "s3:ListBucket",
+      "Resource": "arn:aws:s3:::bucket-iam-rule-based",
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": [
+            "us-east-1",
+            "me-south-1"
+          ]
+        }
+      }
+    },
+
+    {
+      "Sid": "AllowOnlyWithinTimeWindow",
+      "Effect": "Allow",
+      "Action": "s3:ListBucket",
+      "Resource": "arn:aws:s3:::bucket-iam-rule-based",
+      "Condition": {
+        "DateGreaterThan": {
+          "aws:CurrentTime": "2025-01-01T09:00:00Z"
+        },
+        "DateLessThan": {
+          "aws:CurrentTime": "2025-01-01T18:00:00Z"
+        }
+      }
+    },
+
+    {
+      "Sid": "ExplicitDenyAllOtherActions",
+      "Effect": "Deny",
+      "Action": "*",
+      "Resource": "*",
+      "Condition": {
+        "Bool": {
+          "aws:MultiFactorAuthPresent": "false"
+        }
+      }
+    }
+
+  ]
+}

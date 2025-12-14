@@ -1,0 +1,79 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+
+    {
+      "Sid": "AllowStaffWorkResources",
+      "Effect": "Allow",
+      "Action": [
+        "ec2:Describe*",
+        "s3:Get*",
+        "s3:List*",
+        "cloudformation:Describe*",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "rds:Describe*"
+      ],
+      "Resource": "*"
+    },
+
+    {
+      "Sid": "DenySensitiveOperations",
+      "Effect": "Deny",
+      "Action": [
+        "iam:*",
+        "aws-portal:*",
+        "billing:*",
+        "payments:*",
+        "ce:*",
+        "budgets:*",
+        "cur:*",
+        "purchase-orders:*",
+        "tax:*",
+        "invoicing:*",
+        "consolidatedbilling:*"
+      ],
+      "Resource": "*"
+    },
+
+    {
+      "Sid": "DenyIfNoMFA",
+      "Effect": "Deny",
+      "Action": "*",
+      "Resource": "*",
+      "Condition": {
+        "BoolIfExists": {
+          "aws:MultiFactorAuthPresent": "false"
+        }
+      }
+    },
+
+    {
+      "Sid": "DenyFromUntrustedIP",
+      "Effect": "Deny",
+      "Action": "*",
+      "Resource": "*",
+      "Condition": {
+        "NotIpAddress": {
+          "aws:SourceIp": "103.151.47.201"
+        }
+      }
+    },
+
+    {
+      "Sid": "AllowOnlyApprovedRegions",
+      "Effect": "Deny",
+      "Action": "*",
+      "Resource": "*",
+      "Condition": {
+        "StringNotEquals": {
+          "aws:RequestedRegion": [
+            "us-east-1",
+            "me-south-1"
+          ]
+        }
+      }
+    }
+
+  ]
+}

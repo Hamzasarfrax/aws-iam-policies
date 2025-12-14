@@ -1,0 +1,23 @@
+{
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			 "Sid": "DenyBillingPolicy",
+      "Effect": "Deny",
+      "Action": [
+        "aws-portal:*",
+        "billing:*",
+        "payments:*",
+        "ce:*",
+        "budgets:*",
+        "cur:*",
+        "purchase-orders:*",
+        "tax:*",
+        "invoicing:*",
+        "pricing:*"
+      ],
+      "Resource": "*"
+		}
+	]
+}
+

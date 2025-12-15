@@ -1,72 +1,102 @@
 {
-	"Version": "2012-10-17",
-	"Statement": [
-		{
-			"Sid": "DenyIfNoMFA",
-			"Effect": "Deny",
-			"Action": "*",
-			"Resource": "*",
-			"Condition": {
-				"BoolIfExists": {
-					"aws:MultiFactorAuthPresent": "false"
-				}
-			}
-		},
-		{
-			"Sid": "DenyRootAccountUsage",
-			"Effect": "Deny",
-			"Action": "*",
-			"Resource": "*",
-			"Condition": {
-				"StringLike": {
-					"aws:PrincipalArn": "arn:aws:iam::*:root"
-				}
-			}
-		},
-		{
-			"Sid": "AllowOnlyFromTrustedIP",
-			"Effect": "Allow",
-			"Action": "*",
-			"Resource": "*",
-			"Condition": {
-				"IpAddress": {
-					"aws:SourceIp": "89.111.26.247"
-				}
-			}
-		},
-		
-		{
-			"Sid": "AllowAdminOnlyInApprovedRegions",
-			"Effect": "Allow",
-			"Action": "*",
-			"Resource": "*",
-			"Condition": {
-				"StringEquals": {
-					"aws:RequestedRegion": [
-						"us-east-1",
-						"me-south-1"
-					]
-				}
-			}
-		},
-		{
-			"Sid": "ExplicitDenyBillingAndCostManagement",
-			"Effect": "Deny",
-			"Action": [
-				"aws-portal:*",
-				"billing:*",
-				"payments:*",
-				"ce:*",
-				"budgets:*",
-				"cur:*",
-				"purchase-orders:*",
-				"tax:*",
-				"invoicing:*",
-				"consolidatedbilling:*",
-				"freetier:*",
-				"pricing:*"
-			],
-			"Resource": "*"
-		}
-	]
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "DenyIfNoMFA",
+      "Effect": "Deny",
+      "NotAction": [
+        "iam:CreateVirtualMFADevice",
+        "iam:EnableMFADevice",
+        "iam:ListMFADevices",
+        "iam:ListVirtualMFADevices",
+        "iam:ResyncMFADevice",
+        "iam:DeactivateMFADevice",
+        "iam:GetUser",
+        "iam:ListAccessKeys"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "BoolIfExists": {
+          "aws:MultiFactorAuthPresent": "false"
+        }
+      }
+    },
+    {
+      "Sid": "DenyRootAccountUsage",
+      "Effect": "Deny",
+      "Action": "*",
+      "Resource": "*",
+      "Condition": {
+        "StringLike": {
+          "aws:PrincipalArn": "arn:aws:iam::*:root"
+        }
+      }
+    },
+    {
+      "Sid": "DenyFromUntrustedIP",
+      "Effect": "Deny",
+      "Action": "*",
+      "Resource": "*",
+      "Condition": {
+        "NotIpAddressIfExists": {
+          "aws:SourceIp": [
+            "103.151.47.201/32"
+          ]
+        }
+      }
+    },
+    {
+      "Sid": "DenyOutsideApprovedRegions",
+      "Effect": "Deny",
+      "NotAction": [
+        "iam:*",
+        "route53:*",
+        "cloudfront:*",
+        "s3:*"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "StringNotEqualsIfExists": {
+          "aws:RequestedRegion": [
+            "us-east-1",
+            "me-south-1"
+          ]
+        }
+      }
+    },
+    {
+      "Sid": "DenyBillingAccess",
+      "Effect": "Deny",
+      "Action": [
+        "aws-portal:*",
+        "billing:*",
+        "payments:*",
+        "ce:*",
+        "budgets:*",
+        "cur:*",
+        "purchase-orders:*",
+        "tax:*",
+        "invoicing:*",
+        "consolidatedbilling:*",
+        "freetier:*",
+        "pricing:*"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "AllowAdminAllServices",
+      "Effect": "Allow",
+      "Action": "*",
+      "Resource": "*"
+    }
+  ]
 }
+
+
+
+
+
+
+
+
+

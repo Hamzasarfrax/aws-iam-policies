@@ -24,3 +24,17 @@ Dec 2025 - Dec 2025Dec 2025 - Dec 2025
 ✔ Strict least-privilege enforcement
 
 Each policy is attached via IAM Groups, not hardcoded, making the design scalable and audit-friendly.
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- I designed a layered IAM policy following a deny-first security approach. I implemented DenyIfNoMFA to enforce MFA without locking users out of fixing MFA issues, demonstrating correct NotAction and BoolIfExists usage. I explored DenyRootAccountUsage to understand deny precedence, while knowing in production root access should remain MFA-only. DenyFromUntrustedIP applies zero-trust thinking with /32 IP restriction and NotIpAddressIfExists, balancing security with console usability considering ISP NAT issues. I added DenyOutsideApprovedRegions to control region-specific access with NotAction and global service exceptions, and DenyBillingAccess to mitigate insider threats, a practice rarely seen in junior setups. Finally, AllowAdminAllServices ensures explicit allow after layered denies, showing deep understanding of IAM evaluation order. I validated all conditions using IAM Policy Simulator, CloudTrail, and Access Analyzer to ensure precise and secure policy enforcement -->

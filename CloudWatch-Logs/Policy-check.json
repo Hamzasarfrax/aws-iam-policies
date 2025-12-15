@@ -1,0 +1,35 @@
+{
+    "eventVersion": "1.09",
+    "userIdentity": {
+        "type": "IAMUser",
+        "principalId": "AIDAU2QO65D7XFG5MPJLR",
+        "arn": "arn:aws:iam::331817609471:user/Admin",
+        "accountId": "331817609471",
+        "accessKeyId": "ASIAU2QO65D7Y2CV3CEA",
+        "userName": "Admin",
+        "sessionContext": {
+            "attributes": {
+                "creationDate": "2025-12-15T13:44:18Z",
+                "mfaAuthenticated": "true"
+            }
+        }
+    },
+    "eventTime": "2025-12-15T15:17:17Z",
+    "eventSource": "notifications.amazonaws.com",
+    "eventName": "ListManagedNotificationEvents",
+    "awsRegion": "us-east-1",
+    "sourceIPAddress": "103.151.47.201",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
+    "requestParameters": {
+        "maxResults": "100",
+        "locale": "en_US"
+    },
+    "responseElements": null,
+    "requestID": "c75d9d6b-bcf5-45ec-ac9b-028dc8ae3d27",
+    "eventID": "a32ee7ac-49f3-4b1c-9988-1393d97760ad",
+    "readOnly": true,
+    "eventType": "AwsApiCall",
+    "managementEvent": true,
+    "recipientAccountId": "331817609471",
+    "eventCategory": "Management"
+}
